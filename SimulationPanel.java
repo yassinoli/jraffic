@@ -45,9 +45,9 @@ public class SimulationPanel extends JPanel implements KeyListener {
 
     // ===== Simulation state =====
     private final List<Vehicle> vehicles = new CopyOnWriteArrayList<>();
-    private final Map<Direction, TrafficLight> trafficLights = new HashMap<>();
+    private final java.util.Map<Direction, TrafficLight> trafficLights = new HashMap<>();
     private final TrafficLightController lightController;
-    private final Map<Direction, Long> lastSpawnTime = new HashMap<>();
+    private final java.util.Map<Direction, Long> lastSpawnTime = new HashMap<>();
     private final Timer gameTimer;
     private boolean running = true;
 
@@ -112,7 +112,7 @@ public class SimulationPanel extends JPanel implements KeyListener {
 
     private void updateSimulation() {
         // Update traffic light controller with current lane occupancy
-        Map<Direction, List<Vehicle>> laneVehicles = getLaneVehicleMap();
+        java.util.Map<Direction, List<Vehicle>> laneVehicles = buildLaneVehicleMap();
         lightController.setLaneVehicles(laneVehicles);
         lightController.update();
 
@@ -157,8 +157,8 @@ public class SimulationPanel extends JPanel implements KeyListener {
     /**
      * Build a map from each direction to the list of vehicles in that lane.
      */
-    private Map<Direction, List<Vehicle>> getLaneVehicleMap() {
-        Map<Direction, List<Vehicle>> map = new HashMap<>();
+    private java.util.Map<Direction, List<Vehicle>> buildLaneVehicleMap() {
+        java.util.Map<Direction, List<Vehicle>> map = new HashMap<>();
         for (Direction d : Direction.values()) {
             map.put(d, new ArrayList<>());
         }

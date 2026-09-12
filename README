@@ -1,0 +1,20 @@
+# Jraffic
+Jraffic is a desktop traffic-intersection simulation written in Java Swing.
+It renders a four-way junction, vehicles, lane markings, and traffic lights.
+The adaptive controller cycles lights according to queued lane pressure.
+## Requirements
+- Java Development Kit (JDK) 8 or newer.
+- No third-party libraries or build tool are required.
+## Run
+Compile the source files from the project directory:
+```bash
+javac *.java
+java Main
+```
+
+## Controls
+- Arrow keys spawn vehicles from their corresponding incoming direction.
+- `R` spawns a vehicle from a random direction.
+- `Esc` closes the simulation.
+
+Vehicles obey signals and maintain a safety gap while crossing or turning.
