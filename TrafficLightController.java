@@ -66,11 +66,13 @@ public class TrafficLightController {
             boolean canChange = elapsed >= MIN_GREEN_DURATION_MS;
             boolean normalPhaseDone = elapsed >= GREEN_DURATION_MS;
             boolean maxPhaseDone = elapsed >= MAX_GREEN_DURATION_MS;
+            boolean hasWaitingTrafficElsewhere = hasQueuedLaneOtherThan(greenDirection);
             boolean shouldServeUrgentLane = hasUrgentLaneOtherThan(greenDirection)
                     && getQueuedCount(greenDirection) == 0;
             boolean currentStillUrgent = isUrgent(greenDirection) && !hasMoreUrgentLane(greenDirection);
 
-            if (canChange && (maxPhaseDone || shouldServeUrgentLane || (normalPhaseDone && !currentStillUrgent))) {
+            if (canChange && hasWaitingTrafficElsewhere
+                    && (maxPhaseDone || shouldServeUrgentLane || (normalPhaseDone && !currentStillUrgent))) {
                 setAllRed();
                 phaseStartTime = now;
                 inTransition = true;
@@ -103,6 +105,15 @@ public class TrafficLightController {
     private boolean hasUrgentLaneOtherThan(Direction direction) {
         for (Direction candidate : phases) {
             if (candidate != direction && isUrgent(candidate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean hasQueuedLaneOtherThan(Direction direction) {
+        for (Direction candidate : phases) {
+            if (candidate != direction && getQueuedCount(candidate) > 0) {
                 return true;
             }
         }
